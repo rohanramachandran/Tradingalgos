@@ -10,7 +10,7 @@ backtest/  - strategy evaluation utilities
 
 ### Quick start
 
-1. Copy `.env.example` to `.env` and supply API keys for Nasdaq and EODHD.
+1. (Optional) copy `.env.example` to `.env` to customise paths.
 2. Install dependencies (requires Python 3.11):
 
    ```bash
