@@ -24,3 +24,16 @@ backtest/  - strategy evaluation utilities
    ```
 
 Raw JSON files will be saved in `data/raw/`.
+
+### Full pipeline example
+
+After fetching the Nasdaq calendar JSON, run the entire process:
+
+```bash
+python run_pipeline.py \
+    --start 2018-01-01 --end 2025-05-31 \
+    --calendar_json calendar_20250610.json \
+    --top 5 --retrain
+```
+
+This builds/updates the dataset, trains the CatBoost model on GPU and prints the top candidates for the next session.
