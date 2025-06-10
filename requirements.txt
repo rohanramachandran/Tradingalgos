@@ -8,3 +8,4 @@ joblib
 requests
 pyarrow
 finance_calendars
+scikit-learn

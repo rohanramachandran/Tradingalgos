@@ -43,11 +43,11 @@ def get_universe() -> list[str]:
     )
     sp400 = _scrape_wiki(
         "https://en.wikipedia.org/wiki/List_of_S%26P_400_companies",
-        "Ticker symbol",
+        "Symbol",
     )
     sp600 = _scrape_wiki(
         "https://en.wikipedia.org/wiki/List_of_S%26P_600_companies",
-        "Ticker symbol",
+        "Symbol",
     )
 
     universe = sorted({*sp500, *sp400, *sp600})
