@@ -24,22 +24,22 @@ import functools, pathlib, pickle, time, pandas as pd, requests
 _UNIVERSE_CACHE = pathlib.Path("data/universe_cache.pkl")
 
 @functools.lru_cache(maxsize=1)
-def _scrape(url: str, col: str) -> list[str]:
-    """Return the ticker column from the first table on *url*."""
+def _scrape_wiki(url: str, col: str) -> list[str]:
+    """Return the ticker column from the first HTML table on the page."""
     html = requests.get(url, timeout=15).text
     return pd.read_html(html)[0][col].str.strip().tolist()
 
 def get_universe() -> list[str]:
     """
-    Union of S&P 500 / 400 / 600 tickers.
-    Scraped from Wikipedia and cached on disk for 24 h.
+    Union of S&P 500 / 400 / 600 tickers, scraped from Wikipedia and
+    cached on disk for 24 h to avoid repeated HTTP traffic.
     """
     if _UNIVERSE_CACHE.exists() and time.time() - _UNIVERSE_CACHE.stat().st_mtime < 86_400:
         return pickle.loads(_UNIVERSE_CACHE.read_bytes())
 
-    sp500 = _scrape("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies", "Symbol")
-    sp400 = _scrape("https://en.wikipedia.org/wiki/List_of_S%26P_400_companies", "Ticker symbol")
-    sp600 = _scrape("https://en.wikipedia.org/wiki/List_of_S%26P_600_companies", "Ticker symbol")
+    sp500 = _scrape_wiki("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies", "Symbol")
+    sp400 = _scrape_wiki("https://en.wikipedia.org/wiki/List_of_S%26P_400_companies", "Ticker symbol")
+    sp600 = _scrape_wiki("https://en.wikipedia.org/wiki/List_of_S%26P_600_companies", "Ticker symbol")
 
     universe = sorted({*sp500, *sp400, *sp600})
     _UNIVERSE_CACHE.parent.mkdir(parents=True, exist_ok=True)
