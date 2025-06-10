@@ -37,12 +37,18 @@ def get_universe() -> list[str]:
     if _UNIVERSE_CACHE.exists() and time.time() - _UNIVERSE_CACHE.stat().st_mtime < 86_400:
         return pickle.loads(_UNIVERSE_CACHE.read_bytes())
 
-    sp500 = _scrape_wiki("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
-                         "Symbol")
-    sp400 = _scrape_wiki("https://en.wikipedia.org/wiki/List_of_S%26P_400_companies",
-                         "Ticker symbol")
-    sp600 = _scrape_wiki("https://en.wikipedia.org/wiki/List_of_S%26P_600_companies",
-                         "Ticker symbol")
+    sp500 = _scrape_wiki(
+        "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
+        "Symbol",
+    )
+    sp400 = _scrape_wiki(
+        "https://en.wikipedia.org/wiki/List_of_S%26P_400_companies",
+        "Ticker symbol",
+    )
+    sp600 = _scrape_wiki(
+        "https://en.wikipedia.org/wiki/List_of_S%26P_600_companies",
+        "Ticker symbol",
+    )
 
     universe = sorted({*sp500, *sp400, *sp600})
     _UNIVERSE_CACHE.parent.mkdir(parents=True, exist_ok=True)
