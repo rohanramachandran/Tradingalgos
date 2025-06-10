@@ -1,3 +1,10 @@
-finance_calendars
+catboost==1.2.5
+yfinance==0.2.40
+pandas
+numpy
+rich
+tqdm
+joblib
 requests
-yfinance
+pyarrow
+finance_calendars
